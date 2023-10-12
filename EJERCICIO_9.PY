@@ -43,9 +43,9 @@ for i in range(3):
         mi_lista.append(Password())
     else:
         mi_lista.append(Password(longitud))
-print (mi_lista)
+
 
 for i in range(3):
-    print(mi_lista[i].esFuerte())
+    print(f"contraseña{i} - ",{mi_lista[i].esFuerte()})
 for i in range(3):
     print(mi_lista[i].getcontrasena())
