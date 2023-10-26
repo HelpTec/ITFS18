@@ -3,10 +3,17 @@ instancias de la misma. De hecho estos metodos pueden acceder solo a la clase y 
 reciben como argumento un cls que es en si la clase."""
 
 class Clase:
+    
+    saludo = "hola"
+    
     @classmethod
     def metododeclase(cls):
         return "metodo de clase", cls
     
+    @classmethod
+    def cambiarvariable(cls):
+        cls.saludo = "chau"
+        
 print(Clase.metododeclase())
 
 """esto implica que los metodos de clase no pueden acceder a los atributos de la instancia, pero si
@@ -15,11 +22,13 @@ por lo que entiendo tambien pueden usarse desde el objeto en cuestiòn"""
 
 mi_clase = Clase
 print(mi_clase.metododeclase())
+print(Clase.saludo)
+mi_clase.cambiarvariable()
+print(Clase.saludo)
 
 """aunque confirmo que puede ser accedido por una clase, puedo dar por hecho el que solo sirve
-acceder a los metodos de la clase desde un objeto sin instanciar la misma y, aunque pueden modificar
-atributos de la clase no imagino como pueden hacerlo cuando de por medio usamos el property(o sin el
-como ya probè)"""
+acceder a los metodos de la clase desde un objeto sin instanciar la misma y, creando el class method 
+adecuado, pueden modificar atributos de la clase"""
 
 """un ejemplo de esto"""
 
