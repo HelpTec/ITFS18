@@ -10,24 +10,24 @@ except sqlite3.OperationalError as error:
 
 def crearTabla():
     cursor.execute('''CREATE TABLE IF NOT EXISTS empleados (
-        "id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-        "nro_legajo" INT NOT NULL UNIQUE,
-        "dni" int NOT NULL UNIQUE,
-        "nombre" text NOT NULL,
-        "apellido" text NOT NULL,
-        "area" text NOT NULL
+        "id" INTEGER NOT NULL,
+        "nro_legajo" INTEGER NOT NULL UNIQUE,
+        "dni" INTEGER NOT NULL UNIQUE,
+        "nombre" TEXT NOT NULL,
+        "apellido" TEXT NOT NULL,
+        "area" TEXT NOT NULL,
+        PRIMARY KEY ("id" AUTOINCREMENT)
     );''')
     bd.commit()
     print("Tabla creada")
 
 def agregar_empleado(id, nro_legajo, dni, nombre, apellido, area):
-    comando = "INSERT INTO empleados (id, nro_legajo, dni, nombre, apellido, area) VALUES (?, ?, ?, ?, ?, ?)"
-    cursor.execute(comando,[id, nro_legajo, dni, nombre, apellido, area])
+    comando = "INSERT INTO empleados (nro_legajo, dni, nombre, apellido, area) VALUES (?, ?, ?, ?, ?);"
+    cursor.execute(comando,(nro_legajo, dni, nombre, apellido, area,))
     bd.commit()
 
 def buscar_por_dni(dni):
-    comando = '''SELECT * FROM empleados WHERE dni=?;'''
-    cursor.execute(comando,(dni))
+    cursor.execute('SELECT * FROM empleados WHERE dni=?', (dni,))
     print(cursor.fetchall())
     input("precione enter para continuar")
 
@@ -42,8 +42,8 @@ def modificar_area(nro_legajo, area):
     cursor.execute(comando,(area, nro_legajo))
 
 def eliminar_Por_Legajo(nro_legajo):
-    comando= '''DELETE * FROM empleados WHERE nro_legajo=?'''
-    cursor.execute(comando,(nro_legajo))
+    comando= '''DELETE FROM empleados WHERE nro_legajo=?'''
+    cursor.execute(comando,(nro_legajo,))
     bd.commit()
 
 def cerrar_programa():
@@ -57,6 +57,39 @@ def main():
         print("Ejercicio 10")
         opcion = int(input("Ingrese una opciòn: "))
         try:
+            match opcion:
+                case 1:
+                    crearTabla()
+                case 2:
+                    nro_legajo= int(input("Inserte legajo: "))
+                    dni= int(input("Inserte Dni: "))
+                    nombre= input("Nombre: ")
+                    apellido= input("Apellido: ")
+                    area= input("Area: ")
+                    agregar_empleado(id, nro_legajo, dni, nombre, apellido, area)
+                case 3:
+                    dni= int(input("Inserte DNI: "))
+                    buscar_por_dni(dni)
+                case 4:
+                    mostrar_Registros()
+                case 5:
+                    nro_legajo= int(input("Inserte legajo: "))
+                    area= input("Ingrese area nueva: ")
+                    modificar_area(nro_legajo, area)
+                case 6:
+                    nro_legajo= int(input("Inserte legajo a eliminar: "))
+                    eliminar_Por_Legajo(nro_legajo)
+                case 7:
+                    salir = cerrar_programa()
+                case _:
+                    print("opciòn invalida")
+                    input("")
+        except TypeError:
+            print("Elija una opciòn numerica")
+
+main()
+
+"""
             if opcion == 1:
                 crearTabla()
             elif opcion == 2:
@@ -84,6 +117,4 @@ def main():
                 print("opciòn invalida")
                 input("")
         except TypeError:
-            print("Elija una opciòn numerica")
-
-main()
+            print("Elija una opciòn numerica")"""
