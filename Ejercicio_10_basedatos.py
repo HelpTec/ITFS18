@@ -3,7 +3,6 @@ from os import system
 
 try:
     bd = sqlite3.connect("./empleados.db")
-    print("Base de datos creada")
     cursor = bd.cursor()
 except sqlite3.OperationalError as error:
 	print("Error al abrir la BD.", error)
@@ -21,7 +20,7 @@ def crearTabla():
     bd.commit()
     print("Tabla creada")
 
-def agregar_empleado(id, nro_legajo, dni, nombre, apellido, area):
+def agregar_empleado(nro_legajo, dni, nombre, apellido, area):
     comando = "INSERT INTO empleados (nro_legajo, dni, nombre, apellido, area) VALUES (?, ?, ?, ?, ?);"
     cursor.execute(comando,(nro_legajo, dni, nombre, apellido, area,))
     bd.commit()
@@ -50,11 +49,20 @@ def cerrar_programa():
     bd.close()
     return True
 
+def pantalla_Principal():
+    print("Ejercicio 10 POO")
+    print(10*"=")
+    lista_de_opciones=["Crear Tabla", "Ingresar Empleado", "Buscar Empleado Por DNI", "Mostrar Registros", "Modificar Area", "Eliminar Registro", "Salir"]
+    nro=1
+    for i in (lista_de_opciones):
+        print(nro, i)
+        nro+=1
+        
 def main():
     salir = False
     while salir == False:
         system("cls")
-        print("Ejercicio 10")
+        pantalla_Principal()
         opcion = int(input("Ingrese una opciòn: "))
         try:
             match opcion:
@@ -66,7 +74,7 @@ def main():
                     nombre= input("Nombre: ")
                     apellido= input("Apellido: ")
                     area= input("Area: ")
-                    agregar_empleado(id, nro_legajo, dni, nombre, apellido, area)
+                    agregar_empleado(nro_legajo, dni, nombre, apellido, area)
                 case 3:
                     dni= int(input("Inserte DNI: "))
                     buscar_por_dni(dni)
@@ -88,33 +96,3 @@ def main():
             print("Elija una opciòn numerica")
 
 main()
-
-"""
-            if opcion == 1:
-                crearTabla()
-            elif opcion == 2:
-                nro_legajo= int(input("Inserte legajo: "))
-                dni= int(input("Inserte Dni: "))
-                nombre= input("Nombre: ")
-                apellido= input("Apellido: ")
-                area= input("Area: ")
-                agregar_empleado(nro_legajo, dni, nombre, apellido, area)
-            elif opcion == 3:
-                dni= int(input("Inserte DNI: "))
-                buscar_por_dni(dni)
-            elif opcion == 4:
-                mostrar_Registros()
-            elif opcion == 5:
-                nro_legajo= int(input("Inserte legajo: "))
-                area= input("Ingrese area nueva: ")
-                modificar_area(nro_legajo, area)
-            elif opcion == 6:
-                nro_legajo= int(input("Inserte legajo a eliminar: "))
-                eliminar_Por_Legajo(nro_legajo)
-            elif opcion == 7:
-                salir = cerrar_programa()
-            else:
-                print("opciòn invalida")
-                input("")
-        except TypeError:
-            print("Elija una opciòn numerica")"""
